@@ -1,0 +1,14 @@
+{
+  "agent": {
+    "host": "127.0.0.1",
+    "port": 51235,
+    "token": "local-test-token"
+  },
+  "scan": {
+    "duration_seconds": 1,
+    "concurrency": 1,
+    "include_offline": false,
+    "connect_timeout_seconds": 2
+  },
+  "nodes": {}
+}

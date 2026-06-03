@@ -1,0 +1,12 @@
+[project]
+name = "ts-exitbench"
+version = "0.1.0"
+description = "Tailscale Exit Node speed selector"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+ts-exitbench = "ts_exitbench.cli:main"
+
+[tool.setuptools]
+packages = ["ts_exitbench"]

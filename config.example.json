@@ -1,0 +1,19 @@
+{
+  "agent": {
+    "host": "0.0.0.0",
+    "port": 51234,
+    "token": "change-me-to-a-long-random-token"
+  },
+  "scan": {
+    "duration_seconds": 30,
+    "concurrency": 1,
+    "include_offline": false,
+    "connect_timeout_seconds": 5
+  },
+  "nodes": {
+    "example-linux-node": {
+      "region": "Singapore",
+      "enabled": true
+    }
+  }
+}
