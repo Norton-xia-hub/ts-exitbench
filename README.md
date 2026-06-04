@@ -20,31 +20,25 @@ can choose a better Exit Node for your current location.
 
 Client:
 
-- Python 3.10+
+- Python 3.9+
 - Tailscale installed and logged in
 - `tailscale` command available in terminal
 
 Linux nodes:
 
-- Python 3.10+
+- Python 3.9+
 - Tailscale installed and logged in
-- Agent running on the Tailscale interface
+- Agent bound to the node's Tailscale IP
 
 ## Quick start
 
-Create a config from the example:
+Create a client config from the example:
 
 ```bash
 cp config.example.json config.json
 ```
 
-On each Linux node, run the agent:
-
-```bash
-python3 -m ts_exitbench agent --config config.json
-```
-
-On your client machine, run:
+Set the shared `agent.token` value in `config.json`, then run from your client:
 
 ```bash
 python3 -m ts_exitbench scan --config config.json --out report.html --speed
@@ -52,20 +46,46 @@ python3 -m ts_exitbench scan --config config.json --out report.html --speed
 
 Open `report.html` in a browser.
 
-## Install Linux agent as systemd service
+## Install Linux agent
 
-Copy this project to the node, adjust paths in `packaging/ts-exitbench-agent.service`,
-then run:
+Run this inside the repo on each Linux node:
 
 ```bash
-sudo cp packaging/ts-exitbench-agent.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable --now ts-exitbench-agent
+sudo ./install-agent.sh
+```
+
+The installer will:
+
+- copy the project to `/opt/ts-exitbench`
+- detect the node's Tailscale IPv4 with `tailscale ip -4`
+- create `/etc/ts-exitbench/config.json` on first install
+- bind the agent to the Tailscale IP instead of `0.0.0.0`
+- install and start `ts-exitbench-agent.service`
+
+If you want to set the token yourself during install:
+
+```bash
+sudo TS_EXITBENCH_TOKEN='your-shared-token' ./install-agent.sh
+```
+
+## Manual agent run
+
+On a Linux node:
+
+```bash
+python3 -m ts_exitbench agent --config /etc/ts-exitbench/config.json
 ```
 
 ## Config
 
 `agent.token` must match between the client and every Linux agent.
+
+In the example config, set `agent.host` to the node's Tailscale IPv4. You can
+get it with:
+
+```bash
+tailscale ip -4
+```
 
 Nodes are discovered automatically from Tailscale. The optional `nodes` section
 adds friendly metadata and filtering. The key under `nodes` can match the

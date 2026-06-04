@@ -1,6 +1,6 @@
 {
   "agent": {
-    "host": "0.0.0.0",
+    "host": "TAILSCALE_IPV4_HERE",
     "port": 51234,
     "token": "change-me-to-a-long-random-token"
   },
